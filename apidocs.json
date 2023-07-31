@@ -1,0 +1,327 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "JSMTest",
+        "description": "Aplikasi sederhana untuk mengelola Karyawan",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+          "url": "http://localhost:3300",
+          "description": "Menggunakan jaringan lokal (localhost:3300)"
+        }
+      ],
+    "tags": [
+        {
+            "name": "Users",
+            "description": "Dokumentasi API untuk kebutuhan users"
+        },
+        {
+            "name": "Administrator",
+            "description": "Dokumentasi API untuk kebutuhan Administrator"
+        }
+    ],
+    "paths": {
+        "/admin/addemployee": {
+            "post": {
+                "tags": [
+                    "Administrator"
+                ],
+                "summary": "Registrasi dan menambahkan karyawan baru",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/RegisterRequest"
+                            },
+                            "example": {
+                                "employee_name": "Tyas Susanto",
+                                "username": "username",
+                                "email": "email",
+                                "password": "password",
+                                "phone_number": "6221",
+                                "department_id": "94525272-9974-4531-8818-2ca7879d61a0",
+                                "level_id": "31538b4b-8942-497f-8066-33db39262d63"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Sukses"
+                    }
+                }
+            }
+        },
+        "/user/login": {
+            "post": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Login pengguna",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/LoginRequest"
+                            },
+                            "example": {
+                                "username": "username",
+                                "password": "password"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Sukses"
+                    }
+                }
+            }
+        },
+        "/admin/get": {
+            "get": {
+                "tags": [
+                    "Administrator"
+                ],
+                "summary": "Mendapatkan semua employee yang sudah terdaftar dengan limit default data yang tampil maksimal 5 data, bisa juga ditambahkan opsional untuk mencari berdasarkan nama atau kode departemen atau kode level",
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "searchOption",
+                        "in": "query",
+                        "description": "optional : ketikan kata untuk mencari berdasarkan nama atau kode departemen atau kode level",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Sukses"
+                    }
+                }
+            }
+        },
+        "/admin/delete/{id}": {
+            "delete": {
+                "tags": [
+                    "Administrator"
+                ],
+                "summary": "Menghapus data employee berdasarkan id, hanya level Administrator yang dapat menghapus",
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID Employee yang akan dihapus",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Sukses"
+                    }
+                }
+            }
+        },
+        "/user/update/{id}": {
+            "put": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Update nama pengguna berdasarkan ID dengan autentikasi token",
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID user yang akan di update",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateRouteRequest"
+                            },
+                            "example": {
+                                "employee_name": "Adityas Susanto"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Sukses"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "RegisterRequest": {
+                "type": "object",
+                "properties": {
+                    "employee_name": {
+                        "type": "string",
+                        "description": "Nama Karyawan",
+                        "example": "Tyas Susanto"
+                    },
+                    "username": {
+                        "type": "string",
+                        "description": "username untuk login",
+                        "example": "administrator"
+                    },
+                    "email": {
+                        "type": "email karyawan",
+                        "description": "username untuk login",
+                        "example": "admin@admin.com"
+                    },
+                    "password": {
+                        "type": "string",
+                        "format": "password",
+                        "description": "password user",
+                        "example": "password123"
+                    },
+                    "phone_number": {
+                        "type": "string",
+                        "description": "nomor telepon karyawan",
+                        "example": "621133"
+                    },
+                    "department_id": {
+                        "type": "string",
+                        "description": "masukan department id yang sudah tersedia untuk registrasi. \n \n  Gunakan dari salah satu id berikut :\n \n 1. 94525272-9974-4531-8818-2ca7879d61a0 untuk department IT. \n \n  2. 3afd9fdb-6825-4fb7-89fc-eb380734e082 untuk department Finance \n \n 3. 6c001bcb-041e-4a0e-8f89-9a8c58036633 untuk department operasional \n \n 4. 8b08e52c-a7f3-4a2d-b514-b3a56374d4be untuk department administrasi",
+                        "example": "94525272-9974-4531-8818-2ca7879d61a0"
+                    },
+                    "level_id": {
+                        "type": "string",
+                        "description": "masukan level id yang sudah tersedia untuk registrasi. \n \n  Gunakan dari salah satu id berikut :\n \n 1. 31538b4b-8942-497f-8066-33db39262d63 untuk level Administrator. \n \n  2. 5d18fd55-a4ac-4d0b-b22c-44c52b5562c5 untuk level Manager \n \n 3. 7e4272f5-8af6-450b-b752-6db80ca6b1b8 untuk level Staff \n \n 4. f65b30b2-ed74-4931-b5b4-c425b4f82b6b untuk level Direktur",
+                        "example": "94525272-9974-4531-8818-2ca7879d61a0"
+                    }
+                },
+                "required": [
+                    "employee_name", "username", "email", "password", "phone_number", "department_id", "level_id"
+                ]
+            },
+            "LoginRequest": {
+                "type": "object",
+                "properties": {
+                    "username": {
+                        "type": "string"
+                    },
+                    "password": {
+                        "type": "string",
+                        "format": "password"
+                    }
+                },
+                "required": [
+                    "username", "password"
+                ]
+            },
+            "GetResponse": {
+                "type": "object",
+                "properties": {
+                    "IdEmployee": {
+                        "type": "string",
+                        "description": "ID Unik Employee",
+                        "example": "085d4ec1-9d22-4fc3-8fa4-f0f205dd62ce"
+                    },
+                    "EmployeeName": {
+                        "type": "string",
+                        "description": "Nama Employee",
+                        "example": "Adityas Susanto"
+                    },
+                    "Username": {
+                        "type": "string",
+                        "description": "Username untuk login Employee",
+                        "example": "username"
+                    },
+                    "Email": {
+                        "type": "string",
+                        "description": "Email dari Employee",
+                        "example": "admin@admin.com"
+                    },
+                    "Phone": {
+                        "type": "string",
+                        "description": "nomor telepon Employee",
+                        "example": "6221"
+                    },
+                    "DepartmentCode": {
+                        "type": "string",
+                        "description": "Kode Departemen dari Employee",
+                        "example": "IT"
+                    },
+                    "DepartmentName": {
+                        "type": "string",
+                        "description": "Nama Departemen dari Employee",
+                        "example": "Information and Technology"
+                    },
+                    "LevelCode": {
+                        "type": "string",
+                        "description": "Kode level jabatan dari Employee",
+                        "example": "ADM"
+                    },
+                    "LevelPosition": {
+                        "type": "string",
+                        "description": "Nama level jabatan dari Employee",
+                        "example": "administrator"
+                    }
+                }
+            },
+            "UpdateEmployee": {
+                "type": "object",
+                "properties": {
+                    "employee_name": {
+                        "type": "string",
+                        "description": "Nama Karyawan yang akan di update",
+                        "example": "Nama Karyawan"
+                    }
+                }
+            },
+            "DeleteEmployee": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "description": "ID Employee yang akan dihapus. \n \n Untuk menghapus sebuah data dari Employee hanya dapat dikalukan oleh akun dengan level Administrator",
+                        "example": "150a0e8d-91e9-4255-9031-b8bd8ad469c6"
+                    }
+                },
+                "required": [
+                    "id"
+                ]
+            }
+        },
+        "securitySchemes": {
+            "BearerAuth": {
+                "type": "apiKey",
+                "in": "header",
+                "name": "Authorization"
+            }
+        }
+    }
+}
