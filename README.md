@@ -33,5 +33,6 @@ Buat file `.env` berdasarkan kebutuhan yaitu :
 2. Jalankan aplikasi dengan mengetikan perintah `npm run dev`.
 
 ## Dokumentasi API 
-Anda dapat mengakses dokuemntasi api dan mentestnya melalui web brower anda dengan url : http://localhost:3300/api-docs/
+Anda dapat mengakses dokuemntasi api dan mentestnya melalui web brower anda dengan url : http://localhost:3300/api-docs/.
+Pastikan Server sudah berjalan ketika menjalankan apidocs
 
