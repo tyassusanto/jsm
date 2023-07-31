@@ -2,7 +2,7 @@
     "openapi": "3.0.0",
     "info": {
         "title": "JSMTest",
-        "description": "Aplikasi sederhana untuk mengelola Karyawan",
+        "description": "Aplikasi sederhana untuk mengelola Karyawan \n \n untuk authorisasi token didapatkan ketika login, klik Authorize kemudian ketikan 'Bearer KodeToken'. tanpa kutip dan pastikan hanya 1 kali spasi setelah kata Bearer ",
         "version": "1.0.0"
     },
     "servers": [
