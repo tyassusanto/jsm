@@ -14,6 +14,7 @@ const login = async (req, res, next) => {
         if (!hashedPassword) return next(createError(403, 'Password salah'))
         const secretKey = 'KMZWAY87AA'
         const payload = {
+            id: user.id,
             name: user.employee_name,
             username: user.username,
             email: user.email,
