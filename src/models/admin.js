@@ -52,10 +52,12 @@ const deleteUser = (id) => {
     })
 }
 
+// const getUsers = ({searchOption, sort, order, limit, offset}) => {
 const getUsers = ({searchOption}) => {
     return new Promise((resolve, reject) => {
         let query = `
         SELECT 
+            t_employee.id AS IdEmployee,
             t_employee.employee_name AS "EmployeeName",
             t_employee.username AS "Username",
             t_employee.email AS "Email",
@@ -75,7 +77,14 @@ const getUsers = ({searchOption}) => {
             OR t_level.level_code LIKE '%${searchOption}%'
             OR t_employee.employee_name LIKE '%${searchOption}%'`
         }
-        // console.log('query: ', query);
+        // if(searchOption, sort, limit, offset, order){
+        //     query += ` WHERE t_department.department_code LIKE '%${searchOption}%' 
+        //     OR t_level.level_code LIKE '%${searchOption}%'
+        //     OR t_employee.employee_name LIKE '%${searchOption}%' 
+        //     ORDER BY ${sort} ${order} LIMIT ${limit} OFFSET ${offset}`
+        // }
+        
+        console.log('query: ', query);
         connection.query(query, (error, result) => {
             if (!error) {
                 resolve(result);

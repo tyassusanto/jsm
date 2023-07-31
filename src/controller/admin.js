@@ -81,23 +81,27 @@ const deleteUsers = async (req, res, next) => {
 const getUsers = async (req, res, next) => {
     try {
         const searchOption = req.query.searchOption
-        const sort = req.query.sort || 'employee_name';
-        const order = req.query.order || 'DESC';
-        const page = parseInt(req.query.page) || 1;
-        const limit = parseInt(req.query.limit) || 5;
-        const offset = (page - 1) * limit;
+        // const sort = req.query.sort || 'employee_name';
+        // const order = req.query.order || 'DESC';
+        // const page = parseInt(req.query.page) || 1;
+        // const limit = parseInt(req.query.limit) || 5;
+        // const offset = (page - 1) * limit;
 
         const result = await modelsAdmin.getUsers({
-            searchOption
+            searchOption,
+            // sort,
+            // limit,
+            // offset,
+            // order
         })
         const totalCount = await modelsAdmin.countEmployee()
         const [{ total }] = totalCount
         res.status(200)
         commonHelper.response(res, result, 200, null, {
-            currentPage: page,
-            limitData: limit,
+            // currentPage: page,
+            // limitData: limit,
             totalData: total,
-            totalPage: Math.ceil(total / limit)
+            // totalPage: Math.ceil(total / limit)
         })
     } catch (error) {
         console.log(error, 'error get')
