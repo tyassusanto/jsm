@@ -31,3 +31,7 @@ Buat file `.env` berdasarkan kebutuhan yaitu :
 
 1. Import file dump database ke dalam database yang telah clone ke database anda.
 2. Jalankan aplikasi dengan mengetikan perintah `npm run dev`.
+
+## Dokumentasi API 
+Anda dapat mengakses dokuemntasi api dan mentestnya melalui web brower anda dengan url : http://localhost:3300/api-docs/
+
